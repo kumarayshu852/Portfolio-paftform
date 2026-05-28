@@ -8,7 +8,11 @@ dotenv.config();
 const app =express();
 
 // middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://portfolio-paftform.vercel.app/", // Yahan apna Vercel wala link dalo
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 
 // Database connect
