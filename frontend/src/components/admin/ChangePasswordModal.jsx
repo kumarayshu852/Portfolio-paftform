@@ -17,7 +17,7 @@ const ChangePasswordModal = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.newPassword !== formData.confirmPassword) {
-      return toast.error('Naya password match nahi kar raha!');
+      return toast.error('New Password is not Matched !');
     }
     if (formData.newPassword.length < 6) {
       return toast.error('Password kam se kam 6 characters ka hona chahiye!');
@@ -63,10 +63,10 @@ const ChangePasswordModal = ({ onClose }) => {
           </div>
 
           <div>
-            <label className="block text-gray-400 text-sm mb-2">Naya Password</label>
+            <label className="block text-gray-400 text-sm mb-2">New Password</label>
             <input
               type="password"
-              name="newPassword"
+              name="Enter New Password"
               value={formData.newPassword}
               onChange={handleChange}
               required
@@ -76,14 +76,14 @@ const ChangePasswordModal = ({ onClose }) => {
           </div>
 
           <div>
-            <label className="block text-gray-400 text-sm mb-2">Naya Password Confirm</label>
+            <label className="block text-gray-400 text-sm mb-2">New  Password Confirm</label>
             <input
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-              placeholder="••••••••"
+              placeholder="Enter New Password"
               className="w-full px-4 py-3 bg-[#1a1a35] border border-purple-900/40 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 text-sm"
             />
           </div>

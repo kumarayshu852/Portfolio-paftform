@@ -41,7 +41,7 @@ const ProfilePage = () => {
               onClick={() => setShowEdit(true)}
               className="mt-4 px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl"
             >
-              Profile Setup Karo
+              Set your Porfile
             </button>
           )}
         </div>
@@ -154,7 +154,7 @@ const ProfilePage = () => {
             {/* Social Links */}
             <div>
               <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-widest text-gray-400">
-                Social Links
+                Social Media Links
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {profile.github && (

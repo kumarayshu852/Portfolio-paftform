@@ -89,13 +89,13 @@ const EditProfileModal = ({ profile, onClose, onUpdate }) => {
 
           {/* Tech Stack */}
           <div>
-            <label className="block text-gray-400 text-sm mb-2">Tech Stack (comma se separate)</label>
+            <label className="block text-gray-400 text-sm mb-2">Tech Stack (separate with comma)</label>
             <input
               type="text"
               name="techStack"
               value={formData.techStack}
               onChange={handleChange}
-              placeholder="React, Node.js, MongoDB"
+              placeholder="Tech Stack"
               className="w-full px-4 py-3 bg-[#1a1a35] border border-purple-900/40 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 text-sm"
             />
           </div>
