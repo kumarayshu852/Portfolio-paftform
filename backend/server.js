@@ -9,7 +9,7 @@ const app =express();
 
 // middleware
 app.use(cors({
-  origin: "https://portfolio-paftform.vercel.app/", // Yahan apna Vercel wala link dalo
+  origin: "https://portfolio-paftform.vercel.app", // Yahan apna Vercel wala link dalo
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
