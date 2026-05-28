@@ -20,7 +20,7 @@ const ChangePasswordModal = ({ onClose }) => {
       return toast.error('New Password is not Matched !');
     }
     if (formData.newPassword.length < 6) {
-      return toast.error('Password kam se kam 6 characters ka hona chahiye!');
+      return toast.error('Password must be at least 6 characters long!');
     }
     setLoading(true);
     try {
@@ -28,7 +28,7 @@ const ChangePasswordModal = ({ onClose }) => {
         oldPassword: formData.oldPassword,
         newPassword: formData.newPassword
       });
-      toast.success('Password change ho gaya! 🔒');
+      toast.success('Your Password changed! 🔒');
       onClose();
     } catch (err) {
       toast.error(err.response?.data?.msg || 'Password change failed');
@@ -50,7 +50,7 @@ const ChangePasswordModal = ({ onClose }) => {
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
 
           <div>
-            <label className="block text-gray-400 text-sm mb-2">Purana Password</label>
+            <label className="block text-gray-400 text-sm mb-2"> Old Password</label>
             <input
               type="password"
               name="oldPassword"
