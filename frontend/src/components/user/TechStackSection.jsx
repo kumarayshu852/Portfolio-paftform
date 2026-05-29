@@ -32,12 +32,12 @@ const TechStackSection = ({ techStack }) => {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
-  const filteredSkills = activeFilter === 'All'
+       
+  if (!techStack || techStack.length=== 0) return null;
+  const filteredSkills = (activeFilter === 'All'
     ? techStack
-    : techStack.filter(s => s.category === activeFilter);
-
-  if (!techStack || techStack.length === 0) return null;
+    : techStack.filter(s => s.category === activeFilter)
+    ).filter(s => s.name);
 
   return (
     <section ref={sectionRef} className="py-24 px-6 bg-[#0a0a14]">
@@ -82,7 +82,7 @@ const TechStackSection = ({ techStack }) => {
                 <div className="flex items-center gap-3">
                   {/* Devicon */}
                   <img
-                    src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.name.toLowerCase()}/${skill.name.toLowerCase()}-original.svg`}
+                    src={skill.name ? `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.name.toLowerCase()}/${skill.name.toLowerCase()}-original.svg` : ''}
                     alt={skill.name}
                     className="w-8 h-8"
                     onError={(e) => {
