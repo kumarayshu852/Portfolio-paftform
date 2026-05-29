@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 const EditProfileModal = ({ profile, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
     bio: profile.bio || '',
-    techStack: profile.techStack?.join(', ') || '',
+    
     email: profile.email || '',
     phone: profile.phone || '',
     github: profile.github || '',
@@ -16,6 +16,15 @@ const EditProfileModal = ({ profile, onClose, onUpdate }) => {
     instagram: profile.instagram || '',
     website: profile.website || ''
   });
+
+   // Skills state — techStack se alag
+  const [skills, setSkills] = useState(
+    profile.techStack?.length > 0 && typeof profile.techStack[0] === 'object'
+      ? profile.techStack
+      : []
+  );
+
+
   const [photo, setPhoto] = useState(null);
   const [preview, setPreview] = useState(profile.photo || null);
   const [loading, setLoading] = useState(false);
@@ -31,15 +40,32 @@ const EditProfileModal = ({ profile, onClose, onUpdate }) => {
     setPreview(URL.createObjectURL(file));
   };
 
+    // Skills functions
+  const addSkill = () => {
+    setSkills([...skills, { name: '', category: 'Frontend', percentage: 80 }]);
+  };
+
+   const removeSkill = (index) => {
+    setSkills(skills.filter((_, i) => i !== index));
+  };
+
+  const updateSkill = (index, field, value) => {
+    const updated = [...skills];
+    updated[index][field] = value;
+    setSkills(updated);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const data = new FormData();
       Object.keys(formData).forEach(key => data.append(key, formData[key]));
+       // Skills JSON stringify karke append karo
+      data.append('techStack', JSON.stringify(skills));
       if (photo) data.append('photo', photo);
       await updateProfile(data);
-      toast.success('Profile update ho gaya! ✅');
+      toast.success('Your Profile has been Update! ');
       onUpdate();
       onClose();
     } catch (err) {
@@ -79,7 +105,7 @@ const EditProfileModal = ({ profile, onClose, onUpdate }) => {
           <div>
             <label className="block text-gray-400 text-sm mb-2">Bio</label>
             <textarea
-              name="bio"
+              name="Enter your Bio"
               value={formData.bio}
               onChange={handleChange}
               rows={3}
@@ -87,17 +113,75 @@ const EditProfileModal = ({ profile, onClose, onUpdate }) => {
             />
           </div>
 
-          {/* Tech Stack */}
+          {/* Tech Stack — Dynamic */}
           <div>
-            <label className="block text-gray-400 text-sm mb-2">Tech Stack (separate with comma)</label>
-            <input
-              type="text"
-              name="techStack"
-              value={formData.techStack}
-              onChange={handleChange}
-              placeholder="Tech Stack"
-              className="w-full px-4 py-3 bg-[#1a1a35] border border-purple-900/40 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 text-sm"
-            />
+            <div className="flex items-center justify-between mb-3">
+              <label className="text-gray-400 text-sm">Tech Stack</label>
+              <button
+                type="button"
+                onClick={addSkill}
+                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-xs rounded-lg transition-all"
+              >
+                + Add Skill
+              </button>
+            </div>
+
+            {skills.length === 0 && (
+              <p className="text-gray-600 text-xs text-center py-4 border border-dashed border-white/10 rounded-lg">
+                No Skill Found — "+ Add Skill" click 
+              </p>
+            )}
+
+            <div className="space-y-3">
+              {skills.map((skill, i) => (
+                <div key={i} className="grid grid-cols-12 gap-2 items-center">
+
+                  {/* Name */}
+                  <input
+                    type="text"
+                    value={skill.name}
+                    onChange={(e) => updateSkill(i, 'name', e.target.value)}
+                    placeholder="React"
+                    className="col-span-4 px-3 py-2 bg-[#1a1a35] border border-purple-900/40 rounded-lg text-white text-xs focus:outline-none focus:border-purple-500"
+                  />
+
+                  {/* Category */}
+                  <select
+                    value={skill.category}
+                    onChange={(e) => updateSkill(i, 'category', e.target.value)}
+                    className="col-span-4 px-3 py-2 bg-[#1a1a35] border border-purple-900/40 rounded-lg text-white text-xs focus:outline-none focus:border-purple-500"
+                  >
+                    <option>Frontend</option>
+                    <option>Backend</option>
+                    <option>Database</option>
+                    <option>Tools</option>
+                  </select>
+
+                  {/* Percentage */}
+                  <div className="col-span-3 flex items-center gap-1">
+                    <input
+                      type="number"
+                      value={skill.percentage}
+                      onChange={(e) => updateSkill(i, 'percentage', parseInt(e.target.value))}
+                      min="1"
+                      max="100"
+                      className="w-full px-2 py-2 bg-[#1a1a35] border border-purple-900/40 rounded-lg text-white text-xs focus:outline-none focus:border-purple-500"
+                    />
+                    <span className="text-gray-500 text-xs">%</span>
+                  </div>
+
+                  {/* Remove */}
+                  <button
+                    type="button"
+                    onClick={() => removeSkill(i)}
+                    className="col-span-1 text-red-400 hover:text-red-300 text-xl font-bold text-center"
+                  >
+                    ×
+                  </button>
+
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Contact */}

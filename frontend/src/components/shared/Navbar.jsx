@@ -27,6 +27,9 @@ const Navbar = () => {
           <Link to="/profile" className="text-gray-300 hover:text-white transition-colors duration-200">
           Profile
           </Link>
+          <Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-200">
+          Contact
+          </Link>
 
           {user && user.role === 'admin' && (
             <Link to="/admin" className="text-gray-300 hover:text-white transition-colors duration-200">

@@ -39,6 +39,12 @@ const ProjectCard = ({ project }) => {
           ))}
         </div>
 
+        {/* Views */}
+        <div className="flex items-center gap-1 text-gray-500 text-xs mb-4">
+          <span>👁</span>
+          <span>{project.views || 0} views</span>
+          </div>
+
         {/* Links */}
         <div className="flex items-center gap-3">
           <Link

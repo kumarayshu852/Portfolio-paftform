@@ -65,6 +65,12 @@ const AdminDashboard = () => {
               {projects.filter(p => p.liveLink).length}
             </p>
           </div>
+          <div className="bg-[#13132a] border border-white/10 rounded-2xl p-6">
+          <p className="text-gray-400 text-sm mb-1">Total Views</p>
+          <p className="text-4xl font-bold text-white">
+            {projects.reduce((acc, p) => acc + (p.views || 0), 0)}
+            </p>
+</div>
         </div>
 
         {/* Projects Table */}

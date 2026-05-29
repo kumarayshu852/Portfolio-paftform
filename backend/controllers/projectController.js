@@ -13,7 +13,11 @@ exports.getProjects=async(req,res)=>{
 // GET single projects=detail page of live
 exports.getProjectById = async(req,res)=>{
     try{
-        const project=await Project.findById(req.params.id);
+        const project=await Project.findByIdAndUpdate(
+            req.params.id,
+            {$inc:{views:1}},
+            {new:true}
+        );
         if(!project){
             return res.status(404).json({message:"Project not founded"});
         }

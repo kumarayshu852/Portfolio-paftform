@@ -8,7 +8,11 @@ const profileSchema =new mongoose.Schema({
     },
     photo:{type :String,default: " "},
     bio:{type:String,default: " "},
-    techStack:[String],
+    techStack:[{
+        name:{type:String},
+        category:{type:String,enum:['Frontend','Backend','Database','Tools'],default:"Frontend"},
+        percentage:{type:Number,default:80}
+    }],
     email:{type:String,default:''},
     phone:{type: String, default: ''},
     github:{type:String, default: ""},

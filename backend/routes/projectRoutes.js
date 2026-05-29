@@ -1,22 +1,22 @@
-const router =require('express').Router();
-const protect =require('../middleware/authMiddleware');
-const adminOnly =require('../middleware/adminMiddleware');
-const {upload}=require('../config/cloudinary');
-const{
-    getProjects,
-    getProjectById,
-    addProject,
-    editProject,
-    deleteProject
-}=require('../controllers/projectController');
-//public routes anyone can see 
-router.get('/',getProjects);
-router.get('/:id',getProjectById);
+const router = require('express').Router();
+const protect = require('../middleware/authMiddleware');
+const adminOnly = require('../middleware/adminMiddleware');
+const { upload } = require('../config/cloudinary');
+const {
+  getProjects,
+  getProjectById,
+  addProject,
+  editProject,
+  deleteProject
+} = require('../controllers/projectController');
 
-// Admin only routes rpojects +adminOnly
+// Public routes
+router.get('/', getProjects);
+router.get('/:id', getProjectById);
 
-router.post('/',protect,adminOnly,upload.single('image'),addProject);
-router.put('/:id',protect, adminOnly, upload.single('image'),editProject);
-router.delete('/:id',protect, adminOnly, deleteProject);
+// Admin only routes
+router.post('/', protect, adminOnly, upload.single('image'), addProject);
+router.put('/:id', protect, adminOnly, upload.single('image'), editProject);
+router.delete('/:id', protect, adminOnly, deleteProject);
 
 module.exports = router;

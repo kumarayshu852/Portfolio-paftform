@@ -24,7 +24,7 @@ exports.updateProfile = async (req, res) => {
     const updateData = {
       user: req.user.id,
       bio,
-      techStack: techStack ? techStack.split(',').map(t => t.trim()) : [],
+      techStack: techStack ?JSON.parse(techStack):[],
       email,
       phone,
       github,
@@ -44,12 +44,50 @@ exports.updateProfile = async (req, res) => {
     const profile = await Profile.findOneAndUpdate(
       { user: req.user.id },
       updateData,
-      { new: true, upsert: true }
+      { returnDocument: 'after', upsert: true }
     );
 
     res.json(profile);
   } catch (err) {
     res.status(500).json({ msg: err.message });
+  }
+};
+exports.changeEmail = async (req, res) => {
+  try {
+    const { newEmail, newName, password } = req.body;
+    const User = require('../models/User');
+    const bcrypt = require('bcryptjs');
+
+    const user = await User.findById(req.user.id);
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Wrong Password!' });
+    }
+
+    // Email change karna chahte hain toh check karo
+    if (newEmail && newEmail !== user.email) {
+      const emailExists = await User.findOne({ email: newEmail });
+      if (emailExists) {
+        return res.status(400).json({ message: 'He is already receiving this email.' });
+      }
+      user.email = newEmail;
+    }
+
+    // Name change
+    if (newName) {
+      user.name = newName;
+    }
+
+    await user.save();
+
+    res.json({
+      message: 'Your account is update!',
+      email: user.email,
+      name: user.name
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 

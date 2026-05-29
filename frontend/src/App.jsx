@@ -13,6 +13,7 @@ import EditProjectPage from './pages/admin/EditProjectPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 
 import ProfilePage from './pages/ProfilePage';
+import ContactPage from './pages/ContactPage';
 
 
 // pages 
@@ -37,6 +38,7 @@ const App=() =>{
         <Route path="/signup" element={<SignupPage/>}/>
         <Route path='/project/:id' element={<ProjectDetailPage/>}/>
         <Route path='/profile'element={<ProfilePage/>}/>
+        <Route path="/contact" element={<ContactPage />} />
 
 
         {/*admin Routes */}

@@ -1,18 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getProjects } from '../services/api';
+import { getProjects,getProfile } from '../services/api';
 import ProjectCard from '../components/user/ProjectCard';
+import TechStackSection from '../components/user/TechStackSection';
+
 
 const HomePage = () => {
   const { user } = useAuth();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // State add karo
+const [profile, setProfile] = useState(null);
+
   useEffect(() => {
     getProjects()
       .then(res => setProjects(res.data))
       .catch(err => console.log(err))
       .finally(() => setLoading(false));
+
+      getProfile()
+      .then(res=>setProfile(res.data))
+      .catch(err=>console.log(err));
   }, []);
 
   return (
@@ -98,6 +107,7 @@ const HomePage = () => {
             </p>
             <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mx-auto mt-6" />
           </div>
+         
 
           {/* Projects Grid */}
           {loading ? (
@@ -107,8 +117,8 @@ const HomePage = () => {
           ) : projects.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-5xl mb-4">🚀</p>
-              <p className="text-gray-400 text-xl font-medium">Abhi koi project nahi hai</p>
-              <p className="text-gray-600 text-sm mt-2">Admin se login karke projects add karo</p>
+              <p className="text-gray-400 text-xl font-medium">Not found your Projects</p>
+              <p className="text-gray-600 text-sm mt-2">Add projects by logging in as admin</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -117,6 +127,11 @@ const HomePage = () => {
               ))}
             </div>
           )}
+
+           {/* Tech Stack Section */}
+          {profile?.techStack?.length > 0 && (
+            <TechStackSection techStack={profile.techStack} />
+            )}
 
         </div>
       </section>

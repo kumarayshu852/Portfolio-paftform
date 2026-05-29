@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { getProfile } from '../services/api';
 import EditProfileModal from '../components/admin/EditProfileModal';
 import ChangePasswordModal from '../components/admin/ChangePasswordModal';
+import ChangeEmailModal from '../components/admin/ChangeEmailModal';
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -17,6 +18,8 @@ const ProfilePage = () => {
       .catch(err => console.log(err))
       .finally(() => setLoading(false));
   };
+
+  const [showEmail,setShowEmail]=useState(false);
 
   useEffect(() => {
     fetchProfile();
@@ -35,7 +38,7 @@ const ProfilePage = () => {
       <div className="min-h-screen bg-[#0d0d1a] flex items-center justify-center">
         <div className="text-center">
           <p className="text-5xl mb-4">👤</p>
-          <p className="text-white text-xl font-bold mb-2">Profile nahi mila</p>
+          <p className="text-white text-xl font-bold mb-2">Not found your Profile</p>
           {user?.role === 'admin' && (
             <button
               onClick={() => setShowEdit(true)}
@@ -92,6 +95,11 @@ const ProfilePage = () => {
                     ✏️ Edit Profile
                   </button>
                   <button
+                  onClick={() => setShowEmail(true)}
+                  className="px-5 py-2.5 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-400 text-sm font-medium rounded-xl transition-all duration-200">
+                     👤 Update Account
+                     </button>
+                  <button
                     onClick={() => setShowPassword(true)}
                     className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-medium rounded-xl transition-all duration-200"
                   >
@@ -105,6 +113,13 @@ const ProfilePage = () => {
             <h1 className="text-3xl font-bold text-white mb-1">
               {profile.user?.name}
             </h1>
+
+            {/* Yeh add karo name ke neeche */}
+            <div className="flex items-center gap-2 mb-3">
+              <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs rounded-full font-medium">
+              + {profile.user?.role?.charAt(0).toUpperCase() + profile.user?.role?.slice(1)}
+              </span>
+              </div>
             <p className="text-gray-400 text-base mb-4">{profile.bio}</p>
 
             {/* Contact Info */}
@@ -141,7 +156,8 @@ const ProfilePage = () => {
                       key={i}
                       className="px-4 py-2 bg-purple-500/10 border border-purple-500/20 text-purple-300 text-sm rounded-full"
                     >
-                      {tech}
+                      {/* Object hai toh .name, string hai toh seedha */}
+                      {typeof tech === 'object' ? tech.name : tech}
                     </span>
                   ))}
                 </div>
@@ -211,6 +227,11 @@ const ProfilePage = () => {
       {showPassword && (
         <ChangePasswordModal
           onClose={() => setShowPassword(false)}
+        />
+      )}
+      {showEmail && (
+        <ChangeEmailModal
+        onClose={() => setShowEmail(false)}
         />
       )}
 
