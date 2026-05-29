@@ -127,14 +127,12 @@ const [profile, setProfile] = useState(null);
               ))}
             </div>
           )}
-
-           {/* Tech Stack Section */}
+          </div>
+      </section>
+       {/* Tech Stack Section */}
           {profile?.techStack?.length > 0 && (
             <TechStackSection techStack={profile.techStack} />
             )}
-
-        </div>
-      </section>
 
     </div>
   );
