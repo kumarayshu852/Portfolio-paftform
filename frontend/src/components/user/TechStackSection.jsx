@@ -86,7 +86,8 @@ const TechStackSection = ({ techStack }) => {
                     alt={skill.name}
                     className="w-8 h-8"
                     onError={(e) => {
-                      e.target.style.display = 'none';
+                      e.target.onerror = null;
+                      e.target.src = `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${skill.name.toLowerCase()}/${skill.name.toLowerCase()}-plain.svg`;
                     }}
                   />
                   <span className="text-white font-semibold">{skill.name}</span>

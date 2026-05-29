@@ -105,7 +105,7 @@ const EditProfileModal = ({ profile, onClose, onUpdate }) => {
           <div>
             <label className="block text-gray-400 text-sm mb-2">Bio</label>
             <textarea
-              name="Enter your Bio"
+              name="bio"
               value={formData.bio}
               onChange={handleChange}
               rows={3}
